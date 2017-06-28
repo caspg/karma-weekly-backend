@@ -28,12 +28,4 @@ function emailLogin(authService) {
   });
 }
 
-function authFactory(authService) {
-  return {
-    mutations: {
-      emailLogin: emailLogin(authService),
-    },
-  };
-}
-
-module.exports = authFactory;
+module.exports = emailLogin;
