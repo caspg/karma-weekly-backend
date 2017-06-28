@@ -2,5 +2,8 @@
   "name": "karma-weekly-graphql",
   "version": "1.0.0",
   "author": "Kacper Golinski <kacper.golinski@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "aws-sdk": "2.54.0"
+  }
 }
