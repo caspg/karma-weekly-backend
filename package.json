@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "author": "Kacper Golinski <kacper.golinski@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
   "devDependencies": {
     "aws-sdk": "2.54.0",
     "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.6.0"
+    "eslint-plugin-import": "^2.6.0",
+    "jest": "^20.0.4"
   },
   "dependencies": {
     "graphql": "^0.10.3"
