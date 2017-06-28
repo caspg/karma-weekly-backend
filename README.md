@@ -6,3 +6,13 @@ Hosted on AWS Lambda.
 ## Dependencies
 
 * `aws-sdk v2.54.0` is added as `devDependencies` because it is available in the AWS Lambda execution environment.
+
+## Setting up
+
+* Set ENV variables
+
+  During local development run:
+
+  ```bash
+  $ cp .env.example .env
+  ```
