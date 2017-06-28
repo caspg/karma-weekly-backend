@@ -1,4 +1,7 @@
-const graphqlService = require('./services/graphql');
+const authService = require('./services/auth');
+const graphqlServiceFactory = require('./services/graphql');
+
+const graphqlService = graphqlServiceFactory(authService);
 
 function graphqlHandler(event, context, callback) {
   console.log('Received event', event);

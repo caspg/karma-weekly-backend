@@ -1,9 +1,17 @@
 const { graphql } = require('graphql');
 
-const schema = require('./schema');
+const schemaFactory = require('./schema');
 
-const graphqlService = {
-  runQuery: query => graphql(schema, query),
-};
+function graphqlServiceFactory(authService) {
+  if (!authService) {
+    throw Error('authService must be provided for graphqlServiceFactory.');
+  }
 
-module.exports = graphqlService;
+  const schema = schemaFactory(authService);
+
+  return {
+    runQuery: query => graphql(schema, query),
+  };
+}
+
+module.exports = graphqlServiceFactory;

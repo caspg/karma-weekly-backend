@@ -13,22 +13,27 @@ const EmailLoginResultType = new GraphQLObjectType({
   },
 });
 
-const emailLogin = {
-  name: 'Email login mutation',
-  description: 'Send user email with login link.',
-  type: EmailLoginResultType,
-  args: {
-    email: {
-      type: GraphQLString,
+function emailLogin(authService) {
+  return ({
+    name: 'Email login mutation',
+    description: 'Send user email with login link.',
+    type: EmailLoginResultType,
+    args: {
+      email: {
+        type: GraphQLString,
+      },
     },
-  },
-  resolve: (_, args) => {
-    throw Error(`Implement emailLogin resolver! Email provided: ${args.email}`);
-  },
-};
+    resolve: (_, args) =>
+      authService.emailLogin(args.email),
+  });
+}
 
-const authMutations = {
-  emailLogin,
-};
+function authFactory(authService) {
+  return {
+    mutations: {
+      emailLogin: emailLogin(authService),
+    },
+  };
+}
 
-module.exports.mutations = authMutations;
+module.exports = authFactory;
