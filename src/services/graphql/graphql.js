@@ -2,10 +2,8 @@ const { graphql } = require('graphql');
 
 const schema = require('./schema');
 
-function runQuery(query) {
-  return graphql(schema, query);
-}
-
-const graphqlService = { runQuery };
+const graphqlService = {
+  runQuery: query => graphql(schema, query),
+};
 
 module.exports = graphqlService;
