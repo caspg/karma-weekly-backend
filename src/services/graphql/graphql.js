@@ -1,5 +1,5 @@
 function runQuery(query) {
-  return query;
+  return Promise.resolve(query);
 }
 
 const graphql = { runQuery };
