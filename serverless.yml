@@ -21,7 +21,6 @@ provider:
   name: aws
   runtime: nodejs6.10
   stage: dev
-  memorySize: 512
 
 # you can overwrite defaults here
 #  stage: dev
@@ -57,8 +56,17 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  graphql:
+    handler: handler.graphql
+    memorySize: 512
+    events:
+      - http:
+        path: graphql
+        method: post
+
   hello:
     handler: handler.hello
+    memorySize: 512
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

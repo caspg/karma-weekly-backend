@@ -4,6 +4,9 @@
   "author": "Kacper Golinski <kacper.golinski@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "aws-sdk": "2.54.0"
+    "aws-sdk": "2.54.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.0"
   }
 }
