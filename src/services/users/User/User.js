@@ -1,6 +1,6 @@
 const UserEntity = require('./UserEntity');
-const createItemFactory = require('./factories/createItem');
-const readItemFactory = require('./factories/readItem');
+const createItemFactory = require('./functions/createItem');
+const readItemFactory = require('./functions/readItem');
 
 const TABLE_NAME = 'Users';
 

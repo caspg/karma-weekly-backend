@@ -1,9 +1,12 @@
-const findOrCreateUserFactory = require('./findOrCreateUser');
+const UserFactory = require('./User');
+const findOrCreateUserFactory = require('./functions/findOrCreateUser');
 
-function usersFactory(User) {
-  if (!User) {
-    throw Error('"User" must be provided to services/users.');
+function usersFactory(dynamoDBService) {
+  if (!dynamoDBService) {
+    throw Error('"dynamoDBService" must be provided to services/users.');
   }
+
+  const User = UserFactory(dynamoDBService);
 
   return {
     findOrCreateUser: findOrCreateUserFactory(User),
