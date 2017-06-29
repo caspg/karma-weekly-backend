@@ -8,7 +8,7 @@ function usersFactory(User) {
 
   return {
     findOrCreateUser: findOrCreateUserFactory(User),
-    update: updateUserFactory(User),
+    updateUser: updateUserFactory(User),
   };
 }
 
