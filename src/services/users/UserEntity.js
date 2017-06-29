@@ -4,7 +4,7 @@ const userSchema = {
   email: Joi.string().email(),
 };
 
-class User {
+class UserEntity {
   constructor(data = {}) {
     this.schema = userSchema;
 
@@ -18,4 +18,4 @@ class User {
   }
 }
 
-module.exports = User;
+module.exports = UserEntity;

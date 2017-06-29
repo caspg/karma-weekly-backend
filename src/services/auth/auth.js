@@ -1,33 +1,41 @@
-/**
- * Send an email with Login link.
- * @param {string} email
- */
-function emailLogin(email) {
-  if (!email) {
-    throw Error('Email must be provided!');
+function authServiceFactory(usersService) {
+  if (!usersService) {
+    throw Error('"usersService" must be provided to services/auth.');
   }
 
-  const baseUrl = process.env.BASE_URL;
+  /**
+   * Send an email with Login link.
+   * @param {string} email
+   */
+  function emailLogin(email) {
+    if (!email) {
+      throw Error('Email must be provided!');
+    }
 
-  if (!baseUrl) {
-    throw Error('BASE_URL env variable must be specified!');
+    const baseUrl = process.env.BASE_URL;
+
+    if (!baseUrl) {
+      throw Error('BASE_URL env variable must be specified!');
+    }
+
+    console.log('usersService: ', usersService);
+
+    // TODO
+    // * generate token
+    // * create or find user
+    // * set token to user
+    // * create emailLink
+    // * send email with link
+
+    return {
+      error: null,
+      status: 200,
+    };
   }
-
-  // TODO
-  // * generate token
-  // * create or find user
-  // * set token to user
-  // * create emailLink
-  // * send email with link
 
   return {
-    error: null,
-    status: 200,
+    emailLogin,
   };
 }
 
-const authService = {
-  emailLogin,
-};
-
-module.exports = authService;
+module.exports = authServiceFactory;
