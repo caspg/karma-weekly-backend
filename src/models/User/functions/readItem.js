@@ -1,8 +1,9 @@
 function readItemFactory(dynamoDBService, UserEntity, tableName) {
   return function readItem(params) {
     const dynamoParams = { TableName: tableName, Key: params };
+    const dynamoDBClient = dynamoDBService.client;
 
-    return dynamoDBService
+    return dynamoDBClient
       .get(dynamoParams)
       .promise()
       .then((data) => {

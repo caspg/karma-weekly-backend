@@ -1,8 +1,11 @@
 function createItemFactory(dynamoDBService, UserEntity, tableName) {
   return function createItem(params) {
     const dynamoParams = { TableName: tableName, Item: params };
+    const dynamoDBClient = dynamoDBService.client;
 
-    return dynamoDBService.put(dynamoParams).promise()
+    return dynamoDBClient
+      .put(dynamoParams)
+      .promise()
       .then(() => new UserEntity(params));
   };
 }

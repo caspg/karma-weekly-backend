@@ -18,9 +18,7 @@ function authServiceFactory(usersService) {
       throw Error('BASE_URL env variable must be specified!');
     }
 
-    // console.log('usersService: ', usersService.findOrCreateUser('elo'));
-
-    usersService.findOrCreateUser(email)
+    usersService.update({ email }, { emailToken: 6, updateDate: new Date().toString(), firstName: 'Kacper' })
       .then(user => console.log(user));
 
     // TODO
