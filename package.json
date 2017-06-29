@@ -16,6 +16,7 @@
     "jest": "^20.0.4"
   },
   "dependencies": {
-    "graphql": "^0.10.3"
+    "graphql": "^0.10.3",
+    "joi": "^10.6.0"
   }
 }

@@ -13,6 +13,13 @@ function emailLogin(email) {
     throw Error('BASE_URL env variable must be specified!');
   }
 
+  // TODO
+  // * generate token
+  // * create or find user
+  // * set token to user
+  // * create emailLink
+  // * send email with link
+
   return {
     error: null,
     status: 200,
