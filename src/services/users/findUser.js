@@ -4,9 +4,7 @@ function findUserFactory(User) {
       throw Error('"email" must be provided to findUser service');
     }
 
-    return User.read({ email })
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+    return User.read({ email });
   };
 }
 

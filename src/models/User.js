@@ -1,3 +1,5 @@
+const UserEntity = require('./UserEntity');
+
 const TABLE_NAME = 'Users';
 
 function UserFactory(dynamoDBService) {
@@ -7,12 +9,21 @@ function UserFactory(dynamoDBService) {
 
   function create(params) {
     const dynamoParams = { TableName: TABLE_NAME, Item: params };
-    return dynamoDBService.create(dynamoParams);
+
+    return dynamoDBService.put(dynamoParams).promise()
+      .then(() => new UserEntity(params));
   }
 
   function read(params) {
     const dynamoParams = { TableName: TABLE_NAME, Key: params };
-    return dynamoDBService.get(dynamoParams);
+
+    return dynamoDBService.get(dynamoParams).promise()
+      .then((data) => {
+        const item = data.Item;
+        if (!item) return null;
+
+        return new UserEntity(item);
+      });
   }
 
   return { create, read };

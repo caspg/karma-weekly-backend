@@ -1,18 +1,18 @@
 const findUserFactory = require('./findUser');
+const createUserFactory = require('./createUser');
 
-/**
- * Creates findOrCreateUser service function.
- * @param {object} User
- * @returns {function}
- */
 function findOrCreateUserFactory(User) {
-  /**
-   * Find existing user or create new one.
-   * @param {string} email
-   * @returns {promise} user entity
-   */
   function findOrCreateUser(email) {
-    return findUserFactory(User)(email);
+    const findUser = findUserFactory(User);
+    const createUser = createUserFactory(User);
+
+    return findUser(email).then((user) => {
+      if (!user) {
+        return createUser(email);
+      }
+
+      return user;
+    });
   }
 
   return findOrCreateUser;

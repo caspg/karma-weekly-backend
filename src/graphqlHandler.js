@@ -3,8 +3,9 @@ const UserFactory = require('./models/User');
 const graphqlServiceFactory = require('./services/graphql');
 const usersServiceFactory = require('./services/users');
 const authServiceFactory = require('./services/auth');
-const dynamoDB = require('./services/dynamoDB');
+const dynamoDBFactory = require('./services/dynamoDB');
 
+const dynamoDB = dynamoDBFactory();
 const User = UserFactory(dynamoDB);
 const usersService = usersServiceFactory(User);
 const authService = authServiceFactory(usersService);
