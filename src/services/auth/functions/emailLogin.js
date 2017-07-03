@@ -1,5 +1,13 @@
 const uuid = require('uuid/v4');
 
+function successResponse() {
+  return { status: 200, error: null };
+}
+
+function errorResponse(error) {
+  return { status: 500, error: error.message || 'internal server error' };
+}
+
 function emailLoginFactory(usersService) {
   /**
    * Send an email with Login link.
@@ -16,28 +24,16 @@ function emailLoginFactory(usersService) {
       throw Error('BASE_URL env variable must be specified!');
     }
 
+    const shortToken = uuid();
+
     return usersService
       .findOrCreateUser(email)
-      .then(() => {
-        const token = uuid();
-        const attributes = {
-          shortToken: token,
-        };
-
-        return usersService
-          .updateUser({ email }, attributes)
-          .then(() => ({
-            error: null,
-            status: 200,
-          }));
-      })
-      .catch(error => ({
-        status: 500,
-        error: error.message || 'internal server error',
-      }));
+      .then(() => usersService.updateUser({ email }, { shortToken }))
+      .then(successResponse)
+      .catch(errorResponse);
 
     // TODO
-    // * create emailLink
+    // * create email with Link
     // * send email with link
   }
 
