@@ -4,11 +4,15 @@ const graphqlServiceFactory = require('./services/graphql');
 const usersServiceFactory = require('./services/users');
 const authServiceFactory = require('./services/auth');
 const dynamoDBFactory = require('./services/dynamoDB');
+const emailProviderFactory = require('./services/mailer/emailProvider');
+const mailerServiceFactory = require('./services/mailer');
 
+const emailProvider = emailProviderFactory();
+const mailerService = mailerServiceFactory(emailProvider);
 const dynamoDBService = dynamoDBFactory();
 const User = UserFactory(dynamoDBService);
 const usersService = usersServiceFactory(User);
-const authService = authServiceFactory(usersService);
+const authService = authServiceFactory(usersService, mailerService);
 const graphqlService = graphqlServiceFactory(authService, usersService);
 
 function graphqlHandler(event, context, callback) {

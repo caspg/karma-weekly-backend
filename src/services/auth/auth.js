@@ -1,8 +1,8 @@
 const emailLoginFactory = require('./functions/emailLogin');
 
-function authServiceFactory(usersService) {
+function authServiceFactory(usersService, mailerService) {
   return {
-    emailLogin: emailLoginFactory(usersService),
+    emailLogin: emailLoginFactory(usersService, mailerService),
   };
 }
 
