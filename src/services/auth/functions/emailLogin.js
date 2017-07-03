@@ -1,3 +1,5 @@
+const uuid = require('uuid/v4');
+
 function emailLoginFactory(usersService) {
   /**
    * Send an email with Login link.
@@ -14,21 +16,27 @@ function emailLoginFactory(usersService) {
       throw Error('BASE_URL env variable must be specified!');
     }
 
-    usersService
-      .updateUser({ email }, { emailToken: 6, updateDate: new Date().toString(), firstName: 'Kacper' })
-      .then(user => console.log(user));
+    return usersService
+      .findOrCreateUser(email)
+      .then(() => {
+        const token = uuid();
+        const attributes = {
+          shortToken: token,
+        };
+
+        return usersService
+          .updateUser({ email }, attributes)
+          .then(() => ({
+            error: null,
+            status: 200,
+          }));
+      });
 
     // TODO
-    // * generate token
-    // * create or find user
-    // * set token to user
     // * create emailLink
     // * send email with link
 
-    return {
-      error: null,
-      status: 200,
-    };
+    // TODO: handle errors
   }
 
   return emailLogin;

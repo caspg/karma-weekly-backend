@@ -18,8 +18,7 @@ function updateItemFactory(dynamoDBService, UserEntity, tableName) {
     return dynamoDBClient
       .update(dynamoParams)
       .promise()
-      .then(d => console.log(d))
-      .catch(d => console.log(d));
+      .then(userAttr => new UserEntity(userAttr));
   };
 }
 
