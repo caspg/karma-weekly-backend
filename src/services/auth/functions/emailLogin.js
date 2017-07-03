@@ -8,7 +8,7 @@ function errorResponse(error) {
   return { status: 500, error: error.message || 'internal server error' };
 }
 
-function emailLoginFactory(usersService) {
+function emailLoginFactory(usersService, mailerService) {
   /**
    * Send an email with Login link.
    * @param {string} email
@@ -25,16 +25,14 @@ function emailLoginFactory(usersService) {
     }
 
     const shortToken = uuid();
+    const loginUrl = `${baseUrl}/login/magic/${shortToken}`;
 
     return usersService
       .findOrCreateUser(email)
       .then(() => usersService.updateUser({ email }, { shortToken }))
+      .then(() => mailerService.sendEmail(email, loginUrl))
       .then(successResponse)
       .catch(errorResponse);
-
-    // TODO
-    // * create email with Link
-    // * send email with link
   }
 
   return emailLogin;

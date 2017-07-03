@@ -7,6 +7,7 @@ function sendEmailFactory(sesClient) {
    * @param {string[]} emailTo
    * @param {string} subject
    * @param {object} body { textBody, htmlBody }
+   * @returns {promise}
    */
   function sendEmail(emailTo, subject, body) {
     const sourceEmail = process.env.AWS_SES_SOURCE_EMAIL;

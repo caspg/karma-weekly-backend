@@ -7,6 +7,8 @@ Please, click the link below:
 
 ${loginUrl}
 
+Note: Your magic link will expire in 12 hours and can be only used one time.
+
 Cheers,
 Karma Weekly Team.
   `;
@@ -18,6 +20,7 @@ function sendLoginUrlFactory(emailProvider) {
   /**
    * @param {string} email
    * @param {string} loginUrl
+   * @returns {promise}
    */
   function sendLoginUrl(email, loginUrl) {
     const emailTo = [email];
