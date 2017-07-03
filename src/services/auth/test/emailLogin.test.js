@@ -7,7 +7,7 @@ describe('auth.emailLogin', () => {
   beforeEach(() => { process.env.BASE_URL = 'http://base.com'; });
 
   describe('when email is not provided', () => {
-    const authService = authServiceFactory({});
+    const authService = authServiceFactory({}, {});
 
     it('throws an error', () => {
       expect(() => authService.emailLogin()).toThrow('Email must be provided!');
@@ -15,7 +15,7 @@ describe('auth.emailLogin', () => {
   });
 
   describe('BASE_URL env variable', () => {
-    const authService = authServiceFactory({});
+    const authService = authServiceFactory({}, {});
 
     it('throws an error', () => {
       process.env.BASE_URL = '';
@@ -24,12 +24,34 @@ describe('auth.emailLogin', () => {
     });
   });
 
+  describe('when there was an error', () => {
+    const errorMessage = 'there was some error';
+    const userService = {
+      findOrCreateUser: jest.fn(() => Promise.resolve()),
+      updateUser: jest.fn(() => { throw Error(errorMessage); }),
+    };
+
+    const authService = authServiceFactory(userService, {});
+
+    it('returns error response', () => {
+      return authService
+        .emailLogin(email)
+        .then((result) => {
+          expect(result).toEqual({ error: errorMessage, status: 500 });
+        });
+    });
+  });
+
   describe('when email and BASE_URL are provided', () => {
     const userService = {
       findOrCreateUser: jest.fn(() => Promise.resolve()),
       updateUser: jest.fn(() => Promise.resolve()),
     };
-    const authService = authServiceFactory(userService);
+    const mailerService = {
+      sendEmail: jest.fn(() => Promise.resolve()),
+    };
+
+    const authService = authServiceFactory(userService, mailerService);
 
     beforeEach(() => {
       userService.findOrCreateUser.mockClear();
@@ -56,29 +78,24 @@ describe('auth.emailLogin', () => {
         });
     });
 
+    it('sends an email to the user', () => {
+      return authService
+        .emailLogin(email)
+        .then(() => {
+          const mockParameters = mailerService.sendEmail.mock.calls[0];
+          const expectedUrlRegex = new RegExp(`^${process.env.BASE_URL}/login/magic/\\S+$`);
+
+          expect(mailerService.sendEmail).toHaveBeenCalled();
+          expect(mockParameters[0]).toBe(email);
+          expect(mockParameters[1]).toMatch(expectedUrlRegex);
+        });
+    });
+
     it('returns correct response', () => {
       return authService
         .emailLogin(email)
         .then((result) => {
           expect(result).toEqual({ error: null, status: 200 });
-        });
-    });
-  });
-
-  describe('when there was an error', () => {
-    const errorMessage = 'there was some error';
-    const userService = {
-      findOrCreateUser: jest.fn(() => Promise.resolve()),
-      updateUser: jest.fn(() => { throw Error(errorMessage); }),
-    };
-
-    const authService = authServiceFactory(userService);
-
-    it('returns error response', () => {
-      return authService
-        .emailLogin(email)
-        .then((result) => {
-          expect(result).toEqual({ error: errorMessage, status: 500 });
         });
     });
   });
