@@ -30,13 +30,15 @@ function emailLoginFactory(usersService) {
             error: null,
             status: 200,
           }));
-      });
+      })
+      .catch(error => ({
+        status: 500,
+        error: error.message || 'internal server error',
+      }));
 
     // TODO
     // * create emailLink
     // * send email with link
-
-    // TODO: handle errors
   }
 
   return emailLogin;
