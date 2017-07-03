@@ -1,6 +1,8 @@
+const sendLoginUrlFactory = require('./functions/sendLoginUrl');
+
 function mailerFactory(emailProvider) {
   return {
-    sendEmail: emailProvider.sendEmail,
+    sendEmail: sendLoginUrlFactory(emailProvider),
   };
 }
 

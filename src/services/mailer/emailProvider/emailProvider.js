@@ -1,12 +1,14 @@
 const AWS = require('aws-sdk');
 
+const makeEmailBody = require('./makeEmailBody');
+
 function sendEmailFactory(sesClient) {
   /**
    * @param {string[]} emailTo
    * @param {string} subject
-   * @param {string} htmlBody
+   * @param {object} body { textBody, htmlBody }
    */
-  function sendEmail(emailTo, subject, htmlBody) {
+  function sendEmail(emailTo, subject, body) {
     const sourceEmail = process.env.AWS_SES_SOURCE_EMAIL;
     const returnPath = process.env.AWS_SES_RETURN_PATH;
 
@@ -27,12 +29,7 @@ function sendEmailFactory(sesClient) {
           Charset: 'UTF-8',
           Data: subject,
         },
-        Body: {
-          Html: {
-            Charset: 'UTF-8',
-            Data: htmlBody,
-          },
-        },
+        Body: makeEmailBody(body),
       },
       Source: sourceEmail,
       ReturnPath: returnPath,
