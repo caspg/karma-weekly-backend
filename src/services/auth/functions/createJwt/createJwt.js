@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
  *
  * @param {object} payload
  * @param {number} expiration NumericDate
+ * @returns {string} json web token
  */
 function createJwt(payload, expiration) {
   const jwtSecret = process.env.JWT_SECRET;
