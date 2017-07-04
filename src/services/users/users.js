@@ -1,4 +1,5 @@
 const findOrCreateUserFactory = require('./functions/findOrCreateUser');
+const findUserFactory = require('./functions/findUser');
 const updateUserFactory = require('./functions/updateUser');
 
 function usersFactory(User) {
@@ -7,6 +8,7 @@ function usersFactory(User) {
   }
 
   return {
+    findUser: findUserFactory(User),
     findOrCreateUser: findOrCreateUserFactory(User),
     updateUser: updateUserFactory(User),
   };

@@ -13,18 +13,33 @@ function errorResponse(error) {
   return { status: 500, error: 'internal server error' };
 }
 
-/**
- * Verify short live login token.
- * @param {string} loginToken
- */
-function verifyLoginToken(loginToken) {
-  // TODO: query DynamoDB with decoded email
+function validateEmail(usersService, email) {
+  return usersService
+    .findUser(email)
+    .then((user) => {
+      if (!user) {
+        throw Error('user was not found in db');
+      }
 
-  return decodeJwt(loginToken)
-    .then(decoded => decoded.email)
-    .then(email => createLongLiveJwt(email))
-    .then(successResponse)
-    .catch(errorResponse);
+      return email;
+    });
 }
 
-module.exports = verifyLoginToken;
+function verifyLoginTokenFactory(usersService) {
+  /**
+   * Verify short live login token.
+   * @param {string} loginToken
+   */
+  function verifyLoginToken(loginToken) {
+    return decodeJwt(loginToken)
+      .then(decoded => decoded.email)
+      .then(email => validateEmail(usersService, email))
+      .then(email => createLongLiveJwt(email))
+      .then(successResponse)
+      .catch(errorResponse);
+  }
+
+  return verifyLoginToken;
+}
+
+module.exports = verifyLoginTokenFactory;
