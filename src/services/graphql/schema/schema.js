@@ -4,7 +4,7 @@ const authFactory = require('./auth');
 
 const helloQuery = {
   type: GraphQLString,
-  resolve: () => 'Hello, World!',
+  resolve: (_, __, context) => context.user && context.user.email,
 };
 
 function schemaFactory(authService) {
