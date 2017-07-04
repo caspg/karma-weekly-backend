@@ -1,11 +1,11 @@
 const emailLoginFactory = require('./mutations/emailLogin');
-const verifyLoginTokenFactory = require('./mutations/verifyLoginToken');
+const verifyJWTFactory = require('./mutations/verifyJWT');
 
 function authFactory(authService) {
   return {
     mutations: {
       emailLogin: emailLoginFactory(authService),
-      verifyLoginToken: verifyLoginTokenFactory(authService),
+      verifyJWT: verifyJWTFactory(authService),
     },
   };
 }

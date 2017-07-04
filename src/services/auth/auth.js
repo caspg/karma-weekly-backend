@@ -1,5 +1,5 @@
 const emailLoginFactory = require('./functions/emailLogin');
-const verifyLoginTokenFactory = require('./functions/verifyLoginToken');
+const verifyJWTFactory = require('./functions/verifyJWT');
 
 function authServiceFactory(usersService, mailerService) {
   if (!usersService) {
@@ -12,7 +12,7 @@ function authServiceFactory(usersService, mailerService) {
 
   return {
     emailLogin: emailLoginFactory(usersService, mailerService),
-    verifyLoginToken: verifyLoginTokenFactory(usersService),
+    verifyJWT: verifyJWTFactory(usersService),
   };
 }
 

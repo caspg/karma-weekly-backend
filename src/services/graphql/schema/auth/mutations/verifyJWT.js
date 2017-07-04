@@ -5,7 +5,7 @@ const {
   GraphQLNonNull,
 } = require('graphql');
 
-const VerifyLoginTokenResultType = new GraphQLObjectType({
+const verifyJWTResultType = new GraphQLObjectType({
   name: 'VerifyLoginTokenResult',
   description: 'Result of verifyLoginToken',
   fields: {
@@ -15,19 +15,19 @@ const VerifyLoginTokenResultType = new GraphQLObjectType({
   },
 });
 
-function verifyLoginTokenFactory(authService) {
+function verifyJWTFactory(authService) {
   return ({
     name: 'Verify login token',
     description: 'Verify login token which was send by an email',
-    type: VerifyLoginTokenResultType,
+    type: verifyJWTResultType,
     args: {
-      loginToken: {
+      token: {
         type: GraphQLString,
       },
     },
     resolve: (_, args) =>
-      authService.verifyLoginToken(args.loginToken),
+      authService.verifyJWT(args.token),
   });
 }
 
-module.exports = verifyLoginTokenFactory;
+module.exports = verifyJWTFactory;

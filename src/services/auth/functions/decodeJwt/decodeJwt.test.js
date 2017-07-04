@@ -19,6 +19,7 @@ describe('decodeJwt function', () => {
     const invalidToken = 'some-token';
 
     return decodeJwt(invalidToken)
+      .then(() => { throw Error(); })
       .catch((err) => {
         expect(err.name).toBe('JsonWebTokenError');
         expect(err.message).toBe('jwt malformed');
@@ -32,6 +33,7 @@ describe('decodeJwt function', () => {
     const token = jsonwebtoken.sign({ email, exp: expiration }, jwtSecret);
 
     return decodeJwt(token)
+      .then(() => { throw Error(); })
       .catch((err) => {
         expect(err.name).toBe('TokenExpiredError');
         expect(err.message).toBe('jwt expired');

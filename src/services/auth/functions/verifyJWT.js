@@ -25,13 +25,13 @@ function validateEmail(usersService, email) {
     });
 }
 
-function verifyLoginTokenFactory(usersService) {
+function verifyJWTFactory(usersService) {
   /**
    * Verify short live login token.
    * @param {string} loginToken
    */
-  function verifyLoginToken(loginToken) {
-    return decodeJwt(loginToken)
+  function verifyJWT(token) {
+    return decodeJwt(token)
       .then(decoded => decoded.email)
       .then(email => validateEmail(usersService, email))
       .then(email => createLongLiveJwt(email))
@@ -39,7 +39,7 @@ function verifyLoginTokenFactory(usersService) {
       .catch(errorResponse);
   }
 
-  return verifyLoginToken;
+  return verifyJWT;
 }
 
-module.exports = verifyLoginTokenFactory;
+module.exports = verifyJWTFactory;
