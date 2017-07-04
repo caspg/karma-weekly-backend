@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const createShortLiveJwt = require('./createShortLiveJwt');
 
 function successResponse() {
   return { status: 200, error: null };
@@ -24,12 +24,11 @@ function emailLoginFactory(usersService, mailerService) {
       throw Error('BASE_URL env variable must be specified!');
     }
 
-    const shortToken = uuid();
-    const loginUrl = `${baseUrl}/login/magic/${shortToken}`;
+    const shortLiveToken = createShortLiveJwt(email);
+    const loginUrl = `${baseUrl}/login/magic/${shortLiveToken}`;
 
     return usersService
       .findOrCreateUser(email)
-      .then(() => usersService.updateUser({ email }, { shortToken }))
       .then(() => mailerService.sendEmail(email, loginUrl))
       .then(successResponse)
       .catch(errorResponse);

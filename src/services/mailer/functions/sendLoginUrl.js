@@ -7,7 +7,7 @@ Please, click the link below:
 
 ${loginUrl}
 
-Note: Your magic link will expire in 12 hours and can be only used one time.
+Note: Your magic link will expire in 5 minutes.
 
 Cheers,
 Karma Weekly Team.
