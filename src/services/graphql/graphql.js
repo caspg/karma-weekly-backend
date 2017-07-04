@@ -10,7 +10,11 @@ function graphqlServiceFactory(authService) {
   const schema = schemaFactory(authService);
 
   return {
-    runQuery: query => graphql(schema, query),
+    runQuery: (headers, query) => (
+        authService
+          .verifyHeader(headers)
+          .then(user => graphql(schema, query, { user }))
+      ),
   };
 }
 

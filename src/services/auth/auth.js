@@ -1,5 +1,6 @@
 const emailLoginFactory = require('./functions/emailLogin');
 const verifyJWTFactory = require('./functions/verifyJWT');
+const verifyHeader = require('./functions/verifyHeader');
 
 function authServiceFactory(usersService, mailerService) {
   if (!usersService) {
@@ -13,6 +14,7 @@ function authServiceFactory(usersService, mailerService) {
   return {
     emailLogin: emailLoginFactory(usersService, mailerService),
     verifyJWT: verifyJWTFactory(usersService),
+    verifyHeader,
   };
 }
 

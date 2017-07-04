@@ -13,12 +13,10 @@ const dynamoDBService = dynamoDBFactory();
 const User = UserFactory(dynamoDBService);
 const usersService = usersServiceFactory(User);
 const authService = authServiceFactory(usersService, mailerService);
-const graphqlService = graphqlServiceFactory(authService, usersService);
+const graphqlService = graphqlServiceFactory(authService);
 
 function graphqlHandler(event, context, callback) {
-  console.log('Received event:', event);
-
-  return graphqlService.runQuery(event.body.query)
+  return graphqlService.runQuery(event.headers, event.body.query)
     .then(response => callback(null, response))
     .catch(error => callback(error));
 }
