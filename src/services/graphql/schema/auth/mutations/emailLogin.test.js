@@ -1,6 +1,7 @@
 const {
   GraphQLString,
   GraphQLInt,
+  GraphQLNonNull,
 } = require('graphql');
 
 const emailLoginFactory = require('./emailLogin');
@@ -17,7 +18,7 @@ describe('emailLogin mutation', () => {
 
     expect(fieldsNames).toEqual(['error', 'status']);
     expect(emailLoginTypeFields.error.type).toEqual(GraphQLString);
-    expect(emailLoginTypeFields.status.type).toEqual(GraphQLInt);
+    expect(emailLoginTypeFields.status.type).toEqual(new GraphQLNonNull(GraphQLInt));
   });
 
   it('accepets correct arguments', () => {

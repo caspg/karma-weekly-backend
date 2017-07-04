@@ -4,7 +4,10 @@ const authServiceFactory = require('../auth');
 describe('auth.emailLogin', () => {
   const email = 'hans@solo.com';
 
-  beforeEach(() => { process.env.BASE_URL = 'http://base.com'; });
+  beforeEach(() => {
+    process.env.BASE_URL = 'http://base.com';
+    process.env.JWT_SECRET = 'secret';
+  });
 
   describe('when email is not provided', () => {
     const authService = authServiceFactory({}, {});
@@ -28,10 +31,13 @@ describe('auth.emailLogin', () => {
     const errorMessage = 'there was some error';
     const userService = {
       findOrCreateUser: jest.fn(() => Promise.resolve()),
-      updateUser: jest.fn(() => { throw Error(errorMessage); }),
     };
 
-    const authService = authServiceFactory(userService, {});
+    const mailerService = {
+      sendEmail: () => { throw Error(errorMessage); },
+    };
+
+    const authService = authServiceFactory(userService, mailerService);
 
     it('returns error response', () => {
       return authService
@@ -45,7 +51,6 @@ describe('auth.emailLogin', () => {
   describe('when email and BASE_URL are provided', () => {
     const userService = {
       findOrCreateUser: jest.fn(() => Promise.resolve()),
-      updateUser: jest.fn(() => Promise.resolve()),
     };
     const mailerService = {
       sendEmail: jest.fn(() => Promise.resolve()),
@@ -55,7 +60,6 @@ describe('auth.emailLogin', () => {
 
     beforeEach(() => {
       userService.findOrCreateUser.mockClear();
-      userService.updateUser.mockClear();
     });
 
     it('finds or create user', () => {
@@ -63,18 +67,6 @@ describe('auth.emailLogin', () => {
         .emailLogin(email)
         .then(() => {
           expect(userService.findOrCreateUser).toHaveBeenCalledWith(email);
-        });
-    });
-
-    it('updates user with shortToken', () => {
-      return authService
-        .emailLogin(email)
-        .then(() => {
-          const mockParameters = userService.updateUser.mock.calls[0];
-
-          expect(userService.updateUser).toHaveBeenCalled();
-          expect(mockParameters[0]).toEqual({ email });
-          expect(typeof mockParameters[1].shortToken).toBe('string');
         });
     });
 
