@@ -2,6 +2,7 @@ const {
   GraphQLObjectType,
   GraphQLString,
   GraphQLInt,
+  GraphQLNonNull,
 } = require('graphql');
 
 const EmailLoginResultType = new GraphQLObjectType({
@@ -9,7 +10,7 @@ const EmailLoginResultType = new GraphQLObjectType({
   description: 'Result of email login.',
   fields: {
     error: { type: GraphQLString },
-    status: { type: GraphQLInt },
+    status: { type: new GraphQLNonNull(GraphQLInt) },
   },
 });
 

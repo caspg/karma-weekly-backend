@@ -21,6 +21,7 @@ function schemaFactory(authService) {
       name: 'MutationRoot',
       fields: {
         emailLogin: auth.mutations.emailLogin,
+        verifyLoginToken: auth.mutations.verifyLoginToken,
       },
     }),
   });
