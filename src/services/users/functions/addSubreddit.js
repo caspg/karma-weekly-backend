@@ -6,7 +6,10 @@ function successResponse() {
 }
 
 function errorResponse(error) {
-  return { status: 500, error: error.message || 'internal server error' };
+  return {
+    status: error.status || 500,
+    error: error.message || 'internal server error',
+  };
 }
 
 /**
@@ -21,9 +24,15 @@ function updateSubreddits(userSubreddits, subreddit) {
     return [subreddit];
   }
 
-  return (userSubreddits.find(s => s === subreddit)) ?
-    userSubreddits :
-    userSubreddits.concat(subreddit);
+  const subredditExists = userSubreddits.find(s => s === subreddit);
+
+  if (subredditExists) {
+    const error = Error(`"${subreddit}" already exists in user's subreddits`);
+    error.status = 422;
+    throw error;
+  }
+
+  return userSubreddits.concat(subreddit);
 }
 
 function addSubredditFactory(User) {
@@ -47,7 +56,7 @@ function addSubredditFactory(User) {
     }
 
     return findUser(email)
-      .then(user => user.subreddits)
+      .then(user => user.props.subreddits)
       .then(subreddits => updateSubreddits(subreddits, subreddit))
       .then(subreddits => updateUser({ email }, { subreddits }))
       .then(successResponse)
