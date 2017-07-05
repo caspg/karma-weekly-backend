@@ -4,6 +4,8 @@ const {
   GraphQLString,
 } = require('graphql');
 
+const addSubredditFactory = require('./mutations/addSubreddit');
+
 const UserType = new GraphQLObjectType({
   name: 'UserType',
   fields: {
@@ -33,7 +35,9 @@ function userFactory(usersService) {
       resolve: (_, __, context) =>
         userResolver(context, usersService),
     },
-    mutations: {},
+    mutations: {
+      addSubreddit: addSubredditFactory(usersService),
+    },
   };
 }
 

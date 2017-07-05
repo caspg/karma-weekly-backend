@@ -25,6 +25,7 @@ function schemaFactory(authService, usersService) {
       fields: {
         emailLogin: auth.mutations.emailLogin,
         verifyJWT: auth.mutations.verifyJWT,
+        addSubreddit: user.mutations.addSubreddit,
       },
     }),
   });

@@ -1,6 +1,7 @@
 const findOrCreateUserFactory = require('./functions/findOrCreateUser');
 const findUserFactory = require('./functions/findUser');
 const updateUserFactory = require('./functions/updateUser');
+const addSubredditFactory = require('./functions/addSubreddit');
 
 function usersFactory(User) {
   if (!User) {
@@ -11,6 +12,7 @@ function usersFactory(User) {
     findUser: findUserFactory(User),
     findOrCreateUser: findOrCreateUserFactory(User),
     updateUser: updateUserFactory(User),
+    addSubreddit: addSubredditFactory(User),
   };
 }
 
