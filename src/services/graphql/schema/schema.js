@@ -27,6 +27,7 @@ function schemaFactory(authService, usersService) {
         verifyJWT: auth.mutations.verifyJWT,
         addSubreddit: user.mutations.addSubreddit,
         removeSubreddit: user.mutations.removeSubreddit,
+        removeUser: user.mutations.removeUser,
       },
     }),
   });

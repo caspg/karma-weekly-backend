@@ -3,6 +3,7 @@ const findUserFactory = require('./functions/findUser');
 const updateUserFactory = require('./functions/updateUser');
 const addSubredditFactory = require('./functions/addSubreddit');
 const removeSubredditFactory = require('./functions/removeSubreddit');
+const removeUserFactory = require('./functions/removeUser');
 
 function usersFactory(User) {
   if (!User) {
@@ -15,6 +16,7 @@ function usersFactory(User) {
     updateUser: updateUserFactory(User),
     addSubreddit: addSubredditFactory(User),
     removeSubreddit: removeSubredditFactory(User),
+    removeUser: removeUserFactory(User),
   };
 }
 

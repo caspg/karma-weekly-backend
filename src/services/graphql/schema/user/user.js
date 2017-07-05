@@ -6,6 +6,7 @@ const {
 
 const addSubredditFactory = require('./mutations/addSubreddit');
 const removeSubredditFactory = require('./mutations/removeSubreddit');
+const removeUserFactory = require('./mutations/removeUser');
 
 const UserType = new GraphQLObjectType({
   name: 'UserType',
@@ -39,6 +40,7 @@ function userFactory(usersService) {
     mutations: {
       addSubreddit: addSubredditFactory(usersService),
       removeSubreddit: removeSubredditFactory(usersService),
+      removeUser: removeUserFactory(usersService),
     },
   };
 }
