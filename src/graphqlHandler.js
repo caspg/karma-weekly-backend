@@ -26,23 +26,33 @@ function prase(obj) {
   return obj;
 }
 
+function createResponse(statusCode, body) {
+  return {
+    statusCode,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+    },
+    body: JSON.stringify(body),
+  };
+}
+
+function createErrorResponse(error) {
+  const statusCode = error.responseStatusCode || 500;
+  const message = error.message || 'Internal server error';
+
+  return createResponse(statusCode, { message });
+}
+
 function graphqlHandler(event, context, callback) {
   const headers = prase(event.headers);
   const body = prase(event.body);
 
   return graphqlService.runQuery(headers, body.query, body.variables)
-    .then((serviceResponse) => {
-      const response = {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
-        },
-        body: JSON.stringify(serviceResponse),
-      };
-
-      callback(null, response);
-    })
-    .catch(error => callback(error));
+    .then(resBody => callback(null, createResponse(200, resBody)))
+    .catch(createErrorResponse);
 }
 
 module.exports = graphqlHandler;
+
+
+const x = '{"body": \'{"query":"{ user { email } }"}\' }';
