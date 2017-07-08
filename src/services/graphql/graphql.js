@@ -1,6 +1,16 @@
-const { graphql } = require('graphql');
+const { graphql, formatError } = require('graphql');
 
 const schemaFactory = require('./schema');
+
+function formatErrorResuls(result) {
+  if (result && result.errors) {
+    return Object.assign({}, result, {
+      errors: result.errors.map(formatError),
+    });
+  }
+
+  return result;
+}
 
 function graphqlServiceFactory(authService, usersService) {
   if (!authService) {
@@ -17,7 +27,8 @@ function graphqlServiceFactory(authService, usersService) {
     runQuery: (headers, query, variables) => (
         authService
           .verifyHeader(headers)
-          .then(user => graphql(schema, query, null, { user }, variables))
+          .then(user => graphql(schema, null, null, { user }, variables))
+          .then(formatErrorResuls)
       ),
   };
 }

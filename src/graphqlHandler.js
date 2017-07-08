@@ -53,6 +53,3 @@ function graphqlHandler(event, context, callback) {
 }
 
 module.exports = graphqlHandler;
-
-
-const x = '{"body": \'{"query":"{ user { email } }"}\' }';
