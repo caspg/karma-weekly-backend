@@ -5,17 +5,21 @@ const readItemFactory = require('./functions/readItem');
 const updateItemFactory = require('./functions/updateItem');
 const removeItemFactory = require('./functions/removeItem');
 
-const TABLE_NAME = 'Users';
-
 function UserFactory(dynamoDBService) {
+  const tableName = process.env.USER_TABLE_NAME;
+
   if (!dynamoDBService) {
     throw Error('"dynamoDBService" must be provided in services/users.');
   }
 
-  const crateItem = createItemFactory(dynamoDBService, UserEntity, TABLE_NAME);
-  const readItem = readItemFactory(dynamoDBService, UserEntity, TABLE_NAME);
-  const updateItem = updateItemFactory(dynamoDBService, UserEntity, TABLE_NAME);
-  const removeItem = removeItemFactory(dynamoDBService, UserEntity, TABLE_NAME);
+  if (!tableName) {
+    throw Error('"USER_TABLE_NAME" env variable must be specified.');
+  }
+
+  const crateItem = createItemFactory(dynamoDBService, UserEntity, tableName);
+  const readItem = readItemFactory(dynamoDBService, UserEntity, tableName);
+  const updateItem = updateItemFactory(dynamoDBService, UserEntity, tableName);
+  const removeItem = removeItemFactory(dynamoDBService, UserEntity, tableName);
 
   return {
     create: crateItem,
