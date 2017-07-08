@@ -24,6 +24,8 @@ functions:
       - http:
           path: graphql
           method: post
+          cors: true
+          integration: lambda-proxy
 
 resources:
   Resources:

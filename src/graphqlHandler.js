@@ -15,9 +15,33 @@ const usersService = usersServiceFactory(User);
 const authService = authServiceFactory(usersService, mailerService);
 const graphqlService = graphqlServiceFactory(authService, usersService);
 
+/**
+ * @param {string|object} event
+ */
+function prase(obj) {
+  if (typeof obj === 'string') {
+    return JSON.parse(obj);
+  }
+
+  return obj;
+}
+
 function graphqlHandler(event, context, callback) {
-  return graphqlService.runQuery(event.headers, event.body.query)
-    .then(response => callback(null, response))
+  const headers = prase(event.headers);
+  const body = prase(event.body);
+
+  return graphqlService.runQuery(headers, body.query, body.variables)
+    .then((serviceResponse) => {
+      const response = {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+        },
+        body: JSON.stringify(serviceResponse),
+      };
+
+      callback(null, response);
+    })
     .catch(error => callback(error));
 }
 
