@@ -29,7 +29,7 @@ function emailLoginFactory(usersService, mailerService) {
 
     return usersService
       .findOrCreateUser(email)
-      .then(() => mailerService.sendEmail(email, loginUrl))
+      .then(() => mailerService.sendLoginEmail(email, loginUrl))
       .then(successResponse)
       .catch(errorResponse);
   }

@@ -38,7 +38,8 @@ function sendEmailFactory(sesClient) {
 
     return sesClient
       .sendEmail(params)
-      .promise();
+      .promise()
+      .then((response) => { console.log(response); return response; });
   }
 
   return sendEmail;
