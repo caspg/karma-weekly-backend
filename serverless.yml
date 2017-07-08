@@ -29,6 +29,7 @@ resources:
   Resources:
     UsersDynamoDbTable:
       Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
       Properties:
         TableName: ${self:provider.environment.USER_TABLE_NAME}
         AttributeDefinitions:
