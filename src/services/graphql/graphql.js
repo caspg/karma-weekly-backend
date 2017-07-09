@@ -27,7 +27,7 @@ function graphqlServiceFactory(authService, usersService) {
     runQuery: (headers, query, variables) => (
         authService
           .verifyHeader(headers)
-          .then(user => graphql(schema, null, null, { user }, variables))
+          .then(user => graphql(schema, query, null, { user }, variables))
           .then(formatErrorResuls)
       ),
   };
