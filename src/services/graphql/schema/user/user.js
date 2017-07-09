@@ -2,6 +2,7 @@ const {
   GraphQLList,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLNonNull,
 } = require('graphql');
 
 const addSubredditFactory = require('./mutations/addSubreddit');
@@ -11,7 +12,7 @@ const removeUserFactory = require('./mutations/removeUser');
 const UserType = new GraphQLObjectType({
   name: 'UserType',
   fields: {
-    email: { type: GraphQLString },
+    email: { type: new GraphQLNonNull(GraphQLString) },
     subreddits: { type: new GraphQLList(GraphQLString) },
   },
 });
