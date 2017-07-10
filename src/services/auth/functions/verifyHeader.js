@@ -1,16 +1,18 @@
 const decodeJwt = require('./decodeJwt');
 
+function authHeader(headers) {
+  return headers.authorization || headers.Authorization;
+}
+
 function isCorrectHeader(headers) {
-  return headers && headers.authorization;
+  return headers && authHeader(headers);
 }
 
 function isCorrectHeaderFormat(parts) {
   return (parts.length === 2 && parts[0] === 'Bearer');
 }
-
 function makeHeaderParts(headers) {
-  const authHeader = headers.authorization || headers.Authorization;
-  return authHeader.split(' ');
+  return authHeader(headers).split(' ');
 }
 
 function nullResult() {
