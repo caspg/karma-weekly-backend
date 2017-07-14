@@ -13,6 +13,7 @@ provider:
         - dynamodb:Query
         - dynamodb:GetItem
         - dynamodb:PutItem
+        - dynamodb:UpdateItem
         - ses:SendEmail
       Resource: "*"
 
