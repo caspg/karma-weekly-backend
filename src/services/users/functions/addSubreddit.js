@@ -1,5 +1,6 @@
 const findUserFactory = require('./findUser');
 const updateUserFactory = require('./updateUser');
+const validateUser = require('./validateUser');
 
 function successResponse() {
   return { status: 200, error: null };
@@ -56,6 +57,7 @@ function addSubredditFactory(User) {
     }
 
     return findUser(email)
+      .then(validateUser)
       .then(user => user.props.subreddits)
       .then(subreddits => updateSubreddits(subreddits, subreddit))
       .then(subreddits => updateUser({ email }, { subreddits }))

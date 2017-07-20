@@ -1,4 +1,5 @@
 const findUserFactory = require('./findUser');
+const validateUser = require('./validateUser');
 const updateUserFactory = require('./updateUser');
 
 function successResponse() {
@@ -6,7 +7,10 @@ function successResponse() {
 }
 
 function errorResponse(error) {
-  return { status: 500, error: error.message || 'internal server error' };
+  return {
+    status: error.status || 500,
+    error: error.message || 'internal server error',
+  };
 }
 
 function removeSubredditFactory(User) {
@@ -23,6 +27,7 @@ function removeSubredditFactory(User) {
     }
 
     return findUser(email)
+      .then(validateUser)
       .then(user => user.props.subreddits)
       .then(subreddits => subreddits.filter(s => s !== subreddit))
       .then(subreddits => updateUser({ email }, { subreddits }))

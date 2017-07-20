@@ -16,16 +16,20 @@ const UserType = new GraphQLObjectType({
   },
 });
 
+const emptyResponse = { email: null };
+
 function userResolver(context, usersService) {
   const { user } = context;
 
   if (!user || !user.email) {
-    return { email: null };
+    return emptyResponse;
   }
 
   return usersService
     .findUser(user.email)
-    .then(userEntity => userEntity.props);
+    .then(usersService.validateUser)
+    .then(userEntity => userEntity.props)
+    .catch(() => emptyResponse);
 }
 
 function userFactory(usersService) {
