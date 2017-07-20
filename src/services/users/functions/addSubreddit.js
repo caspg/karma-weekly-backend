@@ -16,24 +16,45 @@ function errorResponse(error) {
 /**
  * Add subreddit to user's subreddit array.
  *
- * @param {string[]} userSubreddits
+ * @param {string[]} subreddits
  * @param {string} subreddit
  * @returns {string[]}
  */
-function updateSubreddits(userSubreddits, subreddit) {
-  if (!userSubreddits) {
+function updateSubreddits(subreddits, subreddit) {
+  if (!subreddits) {
     return [subreddit];
   }
 
-  const subredditExists = userSubreddits.find(s => s === subreddit);
+  return subreddits.concat(subreddit);
+}
+
+/**
+ * Validate subreddits
+ *
+ * @param {string[]} subreddits
+ * @param {string} subreddit
+ * @returns {string[]}
+ */
+function validateSubreddits(subreddits, subreddit) {
+  const subredditExists = subreddits.find(s => s === subreddit);
 
   if (subredditExists) {
     const error = Error(`"${subreddit}" already exists in user's subreddits`);
     error.status = 422;
+
     throw error;
   }
 
-  return userSubreddits.concat(subreddit);
+  const maxSubredditCount = 10;
+
+  if (subreddits.length >= maxSubredditCount) {
+    const error = Error(`You can't add more than ${maxSubredditCount} subreddits.`);
+    error.status = 422;
+
+    throw error;
+  }
+
+  return subreddits;
 }
 
 function addSubredditFactory(User) {
@@ -59,6 +80,7 @@ function addSubredditFactory(User) {
     return findUser(email)
       .then(validateUser)
       .then(user => user.props.subreddits)
+      .then(subreddits => validateSubreddits(subreddits, subreddit))
       .then(subreddits => updateSubreddits(subreddits, subreddit))
       .then(subreddits => updateUser({ email }, { subreddits }))
       .then(successResponse)
