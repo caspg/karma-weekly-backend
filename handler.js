@@ -3,5 +3,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const graphqlHandler = require('./src/graphqlHandler');
+const sendSubredditNewslettersHandler = require('./src/sendSubredditNewslettersHandler');
 
 module.exports.graphql = graphqlHandler;
+module.exports.sendSubredditNewsletters = sendSubredditNewslettersHandler;
