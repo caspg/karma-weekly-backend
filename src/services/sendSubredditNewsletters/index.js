@@ -1,1 +1,1 @@
-module.export = require('./sendSubredditNewsletters');
+module.exports = require('./sendSubredditNewsletters');

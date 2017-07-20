@@ -19,6 +19,10 @@ provider:
       Resource: "*"
 
 functions:
+  sendSubredditNewsletters:
+    handler: handler.sendSubredditNewsletters
+    memorySize: 512
+
   graphql:
     handler: handler.graphql
     memorySize: 512

@@ -1,9 +1,4 @@
-function sendSubredditNewslettersFactory(usersService) {
-  if (!usersService) {
-    throw Error('usersService is required in sendSubredditNewsletters.');
-  }
-
-  // Services needed:
+// Services needed:
   //   1. userService -> fetch all users
   //   2. dynamodbService -> fetch subreddit issue, save subreddit issue
   //   3. redditService -> fetch json data from subreddit
@@ -22,6 +17,19 @@ function sendSubredditNewslettersFactory(usersService) {
           *   4.2. YES -> do nothing
           * 5. Send email to user with subreddits data
    */
+
+function sendSubredditNewslettersFactory(usersService) {
+  if (!usersService) {
+    throw Error('usersService is required in sendSubredditNewsletters.');
+  }
+
+  function sendSubredditNewsletters() {
+    usersService
+      .getAll()
+      .then(console.log);
+  }
+
+  return sendSubredditNewsletters;
 }
 
 module.exports = sendSubredditNewslettersFactory;
