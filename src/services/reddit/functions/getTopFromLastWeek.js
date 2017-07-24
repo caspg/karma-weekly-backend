@@ -5,11 +5,16 @@ function subredditUrl(subredditName) {
   return `${BASE_REDDIT_URL}/${subredditName}/top/.json?sort=top&t=week&limit=${LINKS_LIMIT}`;
 }
 
+function handleResponse(response) {
+  return response.data.children.map(child => child.data);
+}
+
 function getTopFromLastWeekFactory(getJsonContent) {
   function getTopFromLastWeek(subredditName) {
     const url = subredditUrl(subredditName);
 
-    return getJsonContent(url);
+    return getJsonContent(url)
+      .then(handleResponse);
   }
 
   return getTopFromLastWeek;
