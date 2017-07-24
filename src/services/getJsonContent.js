@@ -1,5 +1,9 @@
 const https = require('https');
 
+function parseJson(body) {
+  return JSON.parse(body.join(''));
+}
+
 /**
  * @param {string} url
  * @returns {promise}
@@ -19,7 +23,7 @@ function getJsonContent(url) {
 
       response.on('data', chunk => body.push(chunk));
 
-      response.on('end', () => resolve(body.join('')));
+      response.on('end', () => resolve(parseJson(body)));
     });
 
     request.on('error', error => reject(error));
