@@ -1,4 +1,4 @@
-function recursivelyGetAll(dynamoDBClient, initialParams) {
+function recursivelyGetAll(dynamoDBClient, initialParams, UserEntity) {
   const allItems = [];
 
   function scanDynamo(params, handler) {
@@ -13,7 +13,7 @@ function recursivelyGetAll(dynamoDBClient, initialParams) {
     allItems.push(...result.Items);
 
     if (typeof LastEvaluatedKey === 'undefined') {
-      return allItems;
+      return allItems.map(i => new UserEntity(i));
     }
 
     const updatedParams = Object.assign({}, initialParams, {
@@ -31,7 +31,7 @@ function getAllItemsFactory(dynamoDBService, UserEntity, tableName) {
     const dynamoDBClient = dynamoDBService.client;
     const dynamoParams = { TableName: tableName };
 
-    return recursivelyGetAll(dynamoDBClient, dynamoParams);
+    return recursivelyGetAll(dynamoDBClient, dynamoParams, UserEntity);
   }
 
   return getAll;
