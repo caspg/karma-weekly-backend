@@ -5,8 +5,17 @@ function subredditUrl(subredditName) {
   return `${BASE_REDDIT_URL}/${subredditName}/top/.json?sort=top&t=week&limit=${LINKS_LIMIT}`;
 }
 
-function handleResponse(response) {
-  return response.data.children.map(child => child.data);
+function getChildren(response) {
+  return response.data.children;
+}
+
+function mapChildrenData(children) {
+  return children.map(({ data }) => ({
+    title: data.title,
+    permalink: data.permalink,
+    commentsNum: data.num_comments,
+    score: data.score,
+  }));
 }
 
 function getTopFromLastWeekFactory(getJsonContent) {
@@ -14,7 +23,8 @@ function getTopFromLastWeekFactory(getJsonContent) {
     const url = subredditUrl(subredditName);
 
     return getJsonContent(url)
-      .then(handleResponse);
+      .then(getChildren)
+      .then(mapChildrenData);
   }
 
   return getTopFromLastWeek;
