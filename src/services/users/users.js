@@ -8,7 +8,7 @@ const getAllFactory = require('./functions/getAll');
 
 function usersFactory(User) {
   if (!User) {
-    throw Error('"dynamoDBService" must be provided to services/users.');
+    throw Error('"User" model must be provided to services/users.');
   }
 
   return {
