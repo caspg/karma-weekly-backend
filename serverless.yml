@@ -7,6 +7,7 @@ provider:
   region: us-east-1
   environment:
     USER_TABLE_NAME: "${self:service}-${opt:stage, self:provider.stage}-user"
+    SUBREDDIT_ISSUE_TABLE_NAME: "${self:service}-${opt:stage, self:provider.stage}-subreddit_issue"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -46,6 +47,25 @@ resources:
         KeySchema:
           - AttributeName: "email"
             KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+    SubredditIssueDynamoDbTable:
+      Type: "AWS::DynamoDB::Table"
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.SUBREDDIT_ISSUE_TABLE_NAME}
+        AttributeDefinitions:
+          - AttributeName: "name"
+            AttributeType: "S"
+          - AttributeName: "number"
+            AttributeType: "N"
+        KeySchema:
+          - AttributeName: "name"
+            KeyType: "HASH"
+          - AttributeName: "number"
+            KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
