@@ -59,12 +59,12 @@ resources:
         AttributeDefinitions:
           - AttributeName: "name"
             AttributeType: "S"
-          - AttributeName: "number"
-            AttributeType: "N"
+          - AttributeName: "date"
+            AttributeType: "S"
         KeySchema:
           - AttributeName: "name"
             KeyType: "HASH"
-          - AttributeName: "number"
+          - AttributeName: "date"
             KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
