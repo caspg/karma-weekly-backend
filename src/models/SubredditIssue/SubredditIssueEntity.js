@@ -2,7 +2,7 @@ class SubredditIssueEntity {
   constructor(data = {}) {
     this.props = {
       name: data.name,
-      number: data.number,
+      date: data.date,
       links: data.links,
     };
   }

@@ -1,12 +1,12 @@
 const getTopFromLastWeekFactory = require('./functions/getTopFromLastWeek');
 
-function redditServiceFactory(getJsonContent) {
-  if (!getJsonContent) {
-    throw Error('getJsonContent must be provided for redditServiceFactory.');
+function redditServiceFactory(utils) {
+  if (!utils || !utils.getJsonContent) {
+    throw Error('utils module must be provided for redditServiceFactory.');
   }
 
   return {
-    getTopFromLastWeek: getTopFromLastWeekFactory(getJsonContent),
+    getTopFromLastWeek: getTopFromLastWeekFactory(utils.getJsonContent),
   };
 }
 

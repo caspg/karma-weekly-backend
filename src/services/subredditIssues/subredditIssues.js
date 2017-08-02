@@ -1,12 +1,16 @@
-const createSubredditIssueFactory = require('./functions/createSubredditIssue');
+const findOrCreateSubredditIssueFactory = require('./functions/findOrCreateSubredditIssue');
 
-function subredditIssuesFactory(SubredditIssue) {
+function subredditIssuesFactory(SubredditIssue, redditServices) {
   if (!SubredditIssue) {
     throw Error('"SubredditIssue" model must be provided to subredditIssues service.');
   }
 
+  if (!redditServices) {
+    throw Error('"SubredditIssue" model must be provided to subredditIssues service.');
+  }
+
   return {
-    create: createSubredditIssueFactory(SubredditIssue),
+    findOrCreate: findOrCreateSubredditIssueFactory(SubredditIssue, redditServices),
   };
 }
 

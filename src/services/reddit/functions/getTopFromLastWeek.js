@@ -19,6 +19,18 @@ function mapChildrenData(children) {
 }
 
 function getTopFromLastWeekFactory(getJsonContent) {
+  /**
+   * @typedef {Object} SubredditLink
+   * @property {String} title
+   * @property {String} permalink
+   * @property {Number} commentsNum
+   * @property {Number} score
+   */
+
+  /**
+   * @param {String} subredditName
+   * @returns {Promise.<SubredditLink[]>}
+   */
   function getTopFromLastWeek(subredditName) {
     const url = subredditUrl(subredditName);
 

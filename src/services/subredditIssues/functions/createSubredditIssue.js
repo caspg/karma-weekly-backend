@@ -1,23 +1,18 @@
-function createSubredditIssueFactory(SubredditIssue) {
-  /**
-   * @typedef {Object} SubredditLink
-   * @property {String} title
-   * @property {String} permalink
-   * @property {Number} commentsNum
-   * @property {Number} score
-   */
-
+function createSubredditIssueFactory(SubredditIssue, redditServices) {
   /**
    * Create subreddit issue entry in DB and return Promise.
    * @param {String} name
-   * @param {Number} number
-   * @param {SubredditLink[]} links
-   * @returns {Promise}
+   * @param {String} date
+   * @returns {Promise.<SubredditIssueEntity>}
    */
-  function createSubredditIssue(name, number, links) {
-    const itemParams = { name, number, links };
+  function createSubredditIssue(name, date) {
+    return redditServices
+      .getTopFromLastWeek(name)
+      .then((links) => {
+        const itemParams = { name, date, links };
 
-    return SubredditIssue.create(itemParams);
+        return SubredditIssue.create(itemParams);
+      });
   }
 
   return createSubredditIssue;

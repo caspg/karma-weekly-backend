@@ -1,6 +1,7 @@
 const SubredditIssueEntity = require('./SubredditIssueEntity');
 
 const createItemFactory = require('./functions/createItem');
+const readItemFactory = require('./functions/readItem');
 
 function SubredditIssueFactory(dynamoDBService) {
   const tableName = process.env.SUBREDDIT_ISSUE_TABLE_NAME;
@@ -14,9 +15,11 @@ function SubredditIssueFactory(dynamoDBService) {
   }
 
   const crateItem = createItemFactory(dynamoDBService, SubredditIssueEntity, tableName);
+  const readItem = readItemFactory(dynamoDBService, SubredditIssueEntity, tableName);
 
   return {
     create: crateItem,
+    read: readItem,
   };
 }
 
