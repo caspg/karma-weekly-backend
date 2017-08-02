@@ -1,7 +1,7 @@
 const template = require('./template');
 
 function makeSubject(name, date) {
-  return `Karma Weekly - r/${name} - ${date}`;
+  return `Karma Weekly - ${date} - r/${name}`;
 }
 
 function sendSubredditIssueFactory(emailProvider) {
