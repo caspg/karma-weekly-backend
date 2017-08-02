@@ -1,5 +1,5 @@
-function htmlBody(loginUrl) {
-  const stringBody = `
+function textBody(loginUrl) {
+  return `
 Hello!
 
 You asked us to send you a magic link for quick login to Karma Weekly.
@@ -12,8 +12,6 @@ Note: Your magic link will expire in 5 minutes.
 Cheers,
 Karma Weekly Team.
   `;
-
-  return stringBody;
 }
 
 function sendLoginUrlFactory(emailProvider) {
@@ -25,8 +23,9 @@ function sendLoginUrlFactory(emailProvider) {
   function sendLoginUrl(email, loginUrl) {
     const emailTo = [email];
     const subject = 'Magic login link for Karma Weekly';
-    const textBody = htmlBody(loginUrl);
-    const body = { textBody };
+    const body = {
+      textBody: textBody(loginUrl),
+    };
 
     return emailProvider.sendEmail(emailTo, subject, body);
   }

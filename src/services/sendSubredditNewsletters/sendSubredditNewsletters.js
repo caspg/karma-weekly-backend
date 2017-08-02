@@ -1,11 +1,10 @@
-function getUsersAndSendNewsletters(usersService, subredditIssuesService, utils) {
+function getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils) {
   const issueNumber = utils.getCurrentDateString();
 
   function handleSubreddit(subreddit, email) {
     subredditIssuesService
       .findOrCreate(subreddit, issueNumber)
-      .then(subredditIssue => console.log(subredditIssue));
-      // TODO send email to user
+      .then(subredditIssue => mailerService.sendSubredditIssue(email, subredditIssue.props));
   }
 
   function handleUserSubreddits(user) {
@@ -25,7 +24,12 @@ function getUsersAndSendNewsletters(usersService, subredditIssuesService, utils)
     .then(users => users.forEach(handleUserSubreddits));
 }
 
-function sendSubredditNewslettersFactory(usersService, subredditIssuesService, utils) {
+function sendSubredditNewslettersFactory(
+  usersService,
+  subredditIssuesService,
+  mailerService,
+  utils
+) {
   if (!usersService) {
     throw Error('usersService is required in sendSubredditNewsletters.');
   }
@@ -39,7 +43,7 @@ function sendSubredditNewslettersFactory(usersService, subredditIssuesService, u
   }
 
   function sendSubredditNewsletters() {
-    getUsersAndSendNewsletters(usersService, subredditIssuesService, utils);
+    getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils);
   }
 
   return sendSubredditNewsletters;
