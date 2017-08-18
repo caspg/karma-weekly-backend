@@ -8,6 +8,7 @@ provider:
   environment:
     USER_TABLE_NAME: "${self:service}-${opt:stage, self:provider.stage}-user"
     SUBREDDIT_ISSUE_TABLE_NAME: "${self:service}-${opt:stage, self:provider.stage}-subreddit_issue"
+    NODE_ENV: production
   iamRoleStatements:
     - Effect: "Allow"
       Action:
