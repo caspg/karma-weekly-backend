@@ -25,7 +25,7 @@ function emailLoginFactory(usersService, mailerService) {
     }
 
     const shortLiveToken = createShortLiveJwt(email);
-    const loginUrl = `${baseUrl}/login/magic/${shortLiveToken}`;
+    const loginUrl = `${baseUrl}/magic/login?m=${shortLiveToken}`;
 
     return usersService
       .findOrCreateUser(email)
