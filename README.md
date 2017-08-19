@@ -1,7 +1,16 @@
 # karma-weekly-backend
 
-Graphql Backend for Karma Weekly, build with [serverless](serverless.com) framework.
-Hosted on AWS Lambda.
+Backend for Karma Weekly application, build with [serverless](serverless.com) framework. Hosted on AWS Lambda.
+
+## Links
+
+* live website: [KarmaWeekly.club](KarmaWeekly.club)
+* frontend repo: [karma-weekly-front](google.com)
+
+## Tech stack
+
+* [graphql-js](https://github.com/graphql/graphql-js)
+* [serverless](https://github.com/serverless/serverless)
 
 ## Dependencies
 
@@ -16,7 +25,6 @@ Hosted on AWS Lambda.
   ```bash
   $ cp .env.example .env
   ```
-
 
 ## License
 
