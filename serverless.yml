@@ -1,4 +1,4 @@
-service: karma-weekly-graphql
+service: karma-weekly-backend
 
 provider:
   name: aws
