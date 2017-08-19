@@ -2,7 +2,7 @@ class UserEntity {
   constructor(data = {}) {
     this.props = {
       email: data.email,
-      subreddits: data.subreddits,
+      subreddits: data.subreddits || [],
     };
   }
 }
