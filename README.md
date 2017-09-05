@@ -5,7 +5,7 @@ Backend for Karma Weekly application, build with [serverless](serverless.com) fr
 ## Links
 
 * live website: [KarmaWeekly.club](https://karmaweekly.club)
-* frontend repo: [karma-weekly-front](google.com)
+* frontend repo: [karma-weekly-front](https://github.com/caspg/karma-weekly-front)
 
 ## Tech stack
 
