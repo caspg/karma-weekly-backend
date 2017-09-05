@@ -1,10 +1,18 @@
-function getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils) {
+const createSendingQueue = require('./functions/createSendingQueue');
+
+// eslint-disable-next-line max-len
+function getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils, sendingQueue) {
   const issueNumber = utils.getCurrentDateString();
+  const handleSubredditPromises = [];
 
   function handleSubreddit(subreddit, email) {
-    subredditIssuesService
+    return subredditIssuesService
       .findOrCreate(subreddit, issueNumber)
-      .then(subredditIssue => mailerService.sendSubredditIssue(email, subredditIssue.props));
+      .then((subredditIssue) => {
+        sendingQueue.createWorker(() =>
+          mailerService.sendSubredditIssue(email, subredditIssue.props)
+        );
+      });
   }
 
   function handleUserSubreddits(user) {
@@ -14,14 +22,21 @@ function getUsersAndSendNewsletters(usersService, subredditIssuesService, mailer
       return;
     }
 
-    subreddits.forEach(subreddit =>
-      handleSubreddit(subreddit, user.props.email)
-    );
+    subreddits.forEach((subreddit) => {
+      handleSubredditPromises.push(
+        handleSubreddit(subreddit, user.props.email)
+      );
+    });
   }
 
   usersService
     .getAll()
-    .then(users => users.forEach(handleUserSubreddits));
+    .then(users => users.forEach(handleUserSubreddits))
+    .then(() => {
+      Promise.all(handleSubredditPromises).then(() => {
+        sendingQueue.finishWorkersQueue();
+      });
+    });
 }
 
 function sendSubredditNewslettersFactory(
@@ -43,7 +58,12 @@ function sendSubredditNewslettersFactory(
   }
 
   function sendSubredditNewsletters() {
-    getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils);
+    const sendingQueue = createSendingQueue();
+
+    // eslint-disable-next-line max-len
+    getUsersAndSendNewsletters(usersService, subredditIssuesService, mailerService, utils, sendingQueue);
+
+    sendingQueue.startExecutionInterval();
   }
 
   return sendSubredditNewsletters;
