@@ -25,6 +25,7 @@ functions:
   sendSubredditNewsletters:
     handler: handler.sendSubredditNewsletters
     memorySize: 512
+    timeout: 600
 
   graphql:
     handler: handler.graphql
